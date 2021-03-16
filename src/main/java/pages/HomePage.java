@@ -20,6 +20,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div[@class='moment__buttons']//span[text()='SHOP NOW']")
     private WebElement shopNowButton;
 
+    @FindBy(xpath = "//span [@class='hero__cta js-buttonHover']//span[text()='SHOP NOW']")
+    private WebElement firstShopNowButton;
+
     @FindBy(xpath = "//span[@class='_1z5n7CN']")
     private WebElement cartIconFilled;
 
@@ -32,16 +35,22 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//button[@aria-label='Delete this item']")
     private WebElement deleteFormCartUsingPopupButton;
 
+    @FindBy(xpath = "//a[@href='https://www.asos.com/men/' and text()='MEN']")
+    private WebElement menCategoryButton;
+
     public WebElement getDeleteFormCartUsingPopupButton() {
         return deleteFormCartUsingPopupButton;
     }
+
     public WebElement getCartIconUnfilled() {
         return cartIconUnfilled;
     }
+
     public WebElement getViewBagButton() {
         return viewBagButton;
     }
-    public void clickOnViewBagButton(){
+
+    public void clickOnViewBagButton() {
         viewBagButton.click();
     }
 
@@ -90,11 +99,19 @@ public class HomePage extends BasePage {
         return cartIconFilled;
     }
 
-    public void moveCursorTo(WebElement element){
+    public void moveCursorTo(WebElement element) {
         build.moveToElement(element).build().perform();
     }
 
     public void deleteFromCartUsingPopup() {
         deleteFormCartUsingPopupButton.click();
+    }
+
+    public void clickOnMenButton() {
+        menCategoryButton.click();
+    }
+
+    public void clickOnFirstShopNowButton() {
+        firstShopNowButton.click();
     }
 }

@@ -16,10 +16,11 @@ import pages.*;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 
-public class DefinitionsSteps {
+public class DefinitionSteps {
     private static final long DEFAULT_TIMEOUT = 100;
     private static final String QUANTITY_IN_CART = "1";
     private static final String Empty_Cart = "";
+    private static final String SEARCH_WORD = "Air";
     WebDriver driver;
     HomePage homePage;
     CartPage cartPage;
@@ -28,7 +29,6 @@ public class DefinitionsSteps {
     CheckoutPage checkoutPage;
     WishlistPage wishlistPage;
     PageFactoryManager pageFactoryManager;
-    Actions builder;
 
     @Before
     public void testsSetUp() {
@@ -45,6 +45,7 @@ public class DefinitionsSteps {
     public void tearDown() {
         driver.close();
     }
+
 
     @Given("User opens {string}")
     public void userOpensHomepage(final String mainPage) {
@@ -124,7 +125,6 @@ public class DefinitionsSteps {
     }
 
 
-
     @Then("User go to cart page")
     public void userGoToCartPage() {
         homePage.moveCursorTo(homePage.getCartIconFilled());
@@ -143,17 +143,48 @@ public class DefinitionsSteps {
     @And("User checks product has been removed")
     public void userChecksProductHasBeenDeleted() {
 
-        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT,homePage.getCartIconUnfilled());
-        Assert.assertEquals(Empty_Cart,homePage.getCartIconUnfilled().getText());
+        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT, homePage.getCartIconUnfilled());
+        Assert.assertEquals(Empty_Cart, homePage.getCartIconUnfilled().getText());
     }
 
     @When("User delete item from cart`s popup menu")
     public void userDeleteItemFromCartSPopupMenu() {
         homePage.moveCursorTo(homePage.getCartIconFilled());
-        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT,homePage.getDeleteFormCartUsingPopupButton());
+        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT, homePage.getDeleteFormCartUsingPopupButton());
         homePage.moveCursorTo(homePage.getDeleteFormCartUsingPopupButton());
         homePage.deleteFromCartUsingPopup();
     }
 
 
+    @Then("User checks that search results are correct")
+    public void userChecksThatSearchResultsAreCorrect() {
+        searchResultsPage = pageFactoryManager.getSearchResultsPage();
+        searchResultsPage.checkOfSearchResults(SEARCH_WORD);
+    }
+
+    @And("User clicks on men`s category button")
+    public void userClicksOnMenSCategoryButton() {
+        homePage.clickOnMenButton();
+    }
+
+    @And("User clicks on first shopNow button")
+    public void userClicksOnFirstShopNowButton() {
+        homePage.clickOnFirstShopNowButton();
+    }
+
+    @And("User clicks on sort button")
+    public void userClicksOnSortButton() {
+        searchResultsPage = pageFactoryManager.getSearchResultsPage();
+        searchResultsPage.clickOnSortMenuButton();
+    }
+
+    @Then("User checks that sorting function works correctly")
+    public void userChecksThatSortingFunctionWorksCorrectly() {
+        searchResultsPage.checkIfDescendingSortIsCorrect();
+    }
+
+    @And("User clicks on descending item of sort menu")
+    public void userClicksOnDescendingItemOfSortMenu() {
+        searchResultsPage.clickOnDescendingSortMenuItem();
+    }
 }

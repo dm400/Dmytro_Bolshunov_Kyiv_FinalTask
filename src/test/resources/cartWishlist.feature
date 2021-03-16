@@ -1,6 +1,6 @@
-Feature: Smoke
+Feature: CartAndWishlist
   As a user
-  I want to test all main site`s functional
+  I want to test cart`s and wishlist`s functional
   So that i can be sure that site works correctly
 
   Scenario Outline: checkAddingProductToWishlist

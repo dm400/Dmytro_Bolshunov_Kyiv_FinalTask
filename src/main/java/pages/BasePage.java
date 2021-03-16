@@ -9,10 +9,13 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Random;
+
 public class BasePage {
     protected WebDriver driver;
     WebDriverWait wait;
     Actions build;
+    Random random;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
