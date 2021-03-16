@@ -22,3 +22,16 @@ Feature: SearchSortFilter
     Examples:
       | homepage              |
       | https://www.asos.com/ |
+
+  Scenario Outline: checkIfFilterBySizeWorksCorrectly
+    Given User opens '<homepage>'
+    And User clicks on men`s category button
+    And User clicks on first shopNow button
+    When User clicks on Size button
+    And User clicks on size menu item
+    And User clicks on Size button
+    And User clicks on first product in list
+    Then User checks that filter works correctly
+    Examples:
+      | homepage              | keyword |
+      | https://www.asos.com/ | shirt   |

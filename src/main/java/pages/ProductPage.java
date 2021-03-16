@@ -1,5 +1,6 @@
 package pages;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -31,5 +32,13 @@ public class ProductPage extends BasePage {
 
     public void clickOnSecondElementOfSizeDropDownMenu() {
         elementsFromSizeSelectDropDownMenu.get(1).click();
+    }
+
+    public boolean checkIfLisInList() {
+        for (WebElement size: elementsFromSizeSelectDropDownMenu) {
+            if (size.getText().contains("L"))
+                return true;
+        }
+        return false;
     }
 }

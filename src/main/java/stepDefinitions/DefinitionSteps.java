@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import pages.*;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
@@ -180,6 +179,7 @@ public class DefinitionSteps {
 
     @Then("User checks that sorting function works correctly")
     public void userChecksThatSortingFunctionWorksCorrectly() {
+        searchResultsPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
         searchResultsPage.checkIfDescendingSortIsCorrect();
     }
 
@@ -187,4 +187,25 @@ public class DefinitionSteps {
     public void userClicksOnDescendingItemOfSortMenu() {
         searchResultsPage.clickOnDescendingSortMenuItem();
     }
+
+    @When("User clicks on Size button")
+    public void userClicksOnSizeButton() {
+        searchResultsPage = pageFactoryManager.getSearchResultsPage();
+        searchResultsPage.clickOnSizeMenuButton();
+        searchResultsPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        searchResultsPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
+    }
+
+    @And("User clicks on size menu item")
+    public void userClicksOnSizeMenuItem() {
+        searchResultsPage.clickOnSizeMenuButtonWithParameterL();
+        searchResultsPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
+    }
+
+    @Then("User checks that filter works correctly")
+    public void userChecksThatFilterWorksCorrectly() {
+        productPage = pageFactoryManager.getProductPage();
+        Assert.assertTrue(productPage.checkIfLisInList());
+    }
+
 }

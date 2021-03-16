@@ -78,4 +78,13 @@ public class SearchResultsPage extends BasePage {
             testPrice = price.getText();
         }
     }
+
+    public void clickOnSizeMenuButton() {
+        sizeMenuButton.click();
+    }
+
+    public void clickOnSizeMenuButtonWithParameterL() {
+        build.moveToElement(lSizeMenuItem).build().perform();
+        lSizeMenuItem.click();
+    }
 }
