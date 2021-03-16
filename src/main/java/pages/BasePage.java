@@ -17,6 +17,7 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver,this);
+        build = new Actions(driver);
     }
 
     public void waitForPageLoadComplete(long timeToWait) {

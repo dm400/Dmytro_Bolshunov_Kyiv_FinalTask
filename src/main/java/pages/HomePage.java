@@ -21,7 +21,29 @@ public class HomePage extends BasePage {
     private WebElement shopNowButton;
 
     @FindBy(xpath = "//span[@class='_1z5n7CN']")
-    private WebElement cartIcon;
+    private WebElement cartIconFilled;
+
+    @FindBy(xpath = "//a[@href='https://www.asos.com/bag?ctaref=mini%20bag']")
+    private WebElement viewBagButton;
+
+    @FindBy(xpath = "//span[@type='bagUnfilled']")
+    private WebElement cartIconUnfilled;
+
+    @FindBy(xpath = "//button[@aria-label='Delete this item']")
+    private WebElement deleteFormCartUsingPopupButton;
+
+    public WebElement getDeleteFormCartUsingPopupButton() {
+        return deleteFormCartUsingPopupButton;
+    }
+    public WebElement getCartIconUnfilled() {
+        return cartIconUnfilled;
+    }
+    public WebElement getViewBagButton() {
+        return viewBagButton;
+    }
+    public void clickOnViewBagButton(){
+        viewBagButton.click();
+    }
 
     public WebElement getWishlistButton() {
         return wishlistButton;
@@ -61,10 +83,18 @@ public class HomePage extends BasePage {
     }
 
     public void checkCorrectNumberOfProductsInCart(String quantityOfProducts) {
-        Assert.assertEquals(cartIcon.getText(), quantityOfProducts);
+        Assert.assertEquals(quantityOfProducts, cartIconFilled.getText());
     }
 
-    public WebElement getCartIcon() {
-        return cartIcon;
+    public WebElement getCartIconFilled() {
+        return cartIconFilled;
+    }
+
+    public void moveCursorTo(WebElement element){
+        build.moveToElement(element).build().perform();
+    }
+
+    public void deleteFromCartUsingPopup() {
+        deleteFormCartUsingPopupButton.click();
     }
 }

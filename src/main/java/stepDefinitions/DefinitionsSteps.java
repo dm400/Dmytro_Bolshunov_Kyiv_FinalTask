@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import manager.PageFactoryManager;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,8 +17,9 @@ import pages.*;
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 
 public class DefinitionsSteps {
-    private static final long DEFAULT_TIMEOUT = 60;
+    private static final long DEFAULT_TIMEOUT = 100;
     private static final String QUANTITY_IN_CART = "1";
+    private static final String Empty_Cart = "";
     WebDriver driver;
     HomePage homePage;
     CartPage cartPage;
@@ -34,15 +36,19 @@ public class DefinitionsSteps {
         var options = new ChromeOptions();
         options.addArguments("--incognito");
         driver = new ChromeDriver();
-        builder = new Actions(driver);
         driver.manage().window().maximize();
         pageFactoryManager = new PageFactoryManager(driver);
 
     }
 
+    @After
+    public void tearDown() {
+        driver.close();
+    }
+
     @Given("User opens {string}")
     public void userOpensHomepage(final String mainPage) {
-        homePage = new PageFactoryManager(driver).getHomePage();
+        homePage = pageFactoryManager.getHomePage();
         homePage.openHomePage(mainPage);
     }
 
@@ -54,7 +60,7 @@ public class DefinitionsSteps {
 
     @When("User clicks on first wishlist button")
     public void userClicksOnFirstWishlistButton() {
-        searchResultsPage = new PageFactoryManager(driver).getSearchResultsPage();
+        searchResultsPage = pageFactoryManager.getSearchResultsPage();
         searchResultsPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, searchResultsPage.getFirstWishlistButton());
         searchResultsPage.clickOnWishlistButton();
     }
@@ -67,7 +73,7 @@ public class DefinitionsSteps {
 
     @Then("User checks that the product is on the wishlist")
     public void userChecksThatTheProductIsOnTheWishlist() {
-        wishlistPage = new PageFactoryManager(driver).getWishlistPage();
+        wishlistPage = pageFactoryManager.getWishlistPage();
         wishlistPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
         wishlistPage.checkProductAreInWishlist();
     }
@@ -94,13 +100,14 @@ public class DefinitionsSteps {
 
     @And("User clicks on first product in list")
     public void userClicksOnFirstProductInList() {
-        searchResultsPage = new PageFactoryManager(driver).getSearchResultsPage();
+        searchResultsPage = pageFactoryManager.getSearchResultsPage();
+        searchResultsPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
         searchResultsPage.clickOnFirstSearchedProduct();
     }
 
     @And("User chooses product`s size")
     public void userChoosesProductSSize() {
-        productPage = new PageFactoryManager(driver).getProductPage();
+        productPage = pageFactoryManager.getProductPage();
         productPage.clickOnSecondElementOfSizeDropDownMenu();
     }
 
@@ -111,13 +118,42 @@ public class DefinitionsSteps {
 
     @Then("User checks if quantity of products in the cart is correct")
     public void userChecksIfQuantityOfProductsInTheCartIsCorrect() {
-        homePage = new PageFactoryManager(driver).getHomePage();
-        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT,homePage.getCartIcon());
+        homePage = pageFactoryManager.getHomePage();
+        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT, homePage.getCartIconFilled());
         homePage.checkCorrectNumberOfProductsInCart(QUANTITY_IN_CART);
     }
 
-    @After
-    public void tearDown() {
-        driver.close();
+
+
+    @Then("User go to cart page")
+    public void userGoToCartPage() {
+        homePage.moveCursorTo(homePage.getCartIconFilled());
+        homePage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
+        homePage.moveCursorTo(homePage.getViewBagButton());
+        homePage.clickOnViewBagButton();
     }
+
+    @Then("User delete item from cart")
+    public void userDeleteItemFromCart() {
+        cartPage = pageFactoryManager.getCartPage();
+        cartPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, cartPage.getRemoveFromCartButton());
+        cartPage.removeFromCart();
+    }
+
+    @And("User checks product has been removed")
+    public void userChecksProductHasBeenDeleted() {
+
+        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT,homePage.getCartIconUnfilled());
+        Assert.assertEquals(Empty_Cart,homePage.getCartIconUnfilled().getText());
+    }
+
+    @When("User delete item from cart`s popup menu")
+    public void userDeleteItemFromCartSPopupMenu() {
+        homePage.moveCursorTo(homePage.getCartIconFilled());
+        homePage.waitVisibilityOfElement(DEFAULT_TIMEOUT,homePage.getDeleteFormCartUsingPopupButton());
+        homePage.moveCursorTo(homePage.getDeleteFormCartUsingPopupButton());
+        homePage.deleteFromCartUsingPopup();
+    }
+
+
 }
