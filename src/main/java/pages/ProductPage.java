@@ -1,6 +1,5 @@
 package pages;
 
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,7 +15,7 @@ public class ProductPage extends BasePage {
     private WebElement sizeSelectDropDown;
 
     @FindBy(xpath = "//select[@data-id='sizeSelect']//option[@value]")
-    private List<WebElement> elementsFromSizeSelectDropDownMenu;
+    List<WebElement> elementsFromSizeSelectDropDownMenu;
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -35,7 +34,7 @@ public class ProductPage extends BasePage {
     }
 
     public boolean checkIfLisInList() {
-        for (WebElement size: elementsFromSizeSelectDropDownMenu) {
+        for (WebElement size : elementsFromSizeSelectDropDownMenu) {
             if (size.getText().contains("L"))
                 return true;
         }

@@ -27,10 +27,10 @@ public class WishlistPage extends BasePage {
     }
 
     public String getExpResNoElementsInWishlist() {
-        return expResNoElementsInWishlist;
+        return EXP_RES_NO_ELEMENTS_IN_WISHLIST;
     }
 
-    private final String expResNoElementsInWishlist = "You have no Saved Items";
+    private static final String EXP_RES_NO_ELEMENTS_IN_WISHLIST = "You have no Saved Items";
 
     public WishlistPage(WebDriver driver) {
         super(driver);

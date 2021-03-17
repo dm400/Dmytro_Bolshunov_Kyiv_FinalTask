@@ -1,6 +1,5 @@
 package manager;
 
-import io.cucumber.java.en_old.Ac;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import pages.*;
@@ -35,6 +34,8 @@ public class PageFactoryManager {
         return new CheckoutPage(driver);
     }
 
-    public WishlistPage getWishlistPage() { return new WishlistPage(driver);}
+    public WishlistPage getWishlistPage() {
+        return new WishlistPage(driver);
+    }
 
 }

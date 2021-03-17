@@ -72,11 +72,9 @@ public class SearchResultsPage extends BasePage {
     }
 
     public void checkIfDescendingSortIsCorrect() {
-        String testPrice = productPrice.getText();
-        for(WebElement price : listOfProductPrices) {
-            Assert.assertTrue(takePriceFromText(price.getText()) <= takePriceFromText(testPrice));
-            testPrice = price.getText();
-        }
+        double firstProduct = takePriceFromText(listOfProductPrices.get(0).getText());
+        double lastProduct = takePriceFromText(listOfProductPrices.get(listOfProductPrices.size()-1).getText());
+        Assert.assertTrue(firstProduct>=lastProduct);
     }
 
     public void clickOnSizeMenuButton() {
@@ -87,4 +85,9 @@ public class SearchResultsPage extends BasePage {
         build.moveToElement(lSizeMenuItem).build().perform();
         lSizeMenuItem.click();
     }
+
+    public WebElement getDescendingSortMenuItem() {
+        return descendingSortMenuItem;
+    }
+
 }

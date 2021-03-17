@@ -1,7 +1,40 @@
-Feature: CartAndWishlist
+Feature: Smoke
   As a user
-  I want to test cart`s and wishlist`s functional
+  I want to main functional
   So that i can be sure that site works correctly
+
+  Scenario Outline: checkCorrectDescendingSort
+    Given User opens '<homepage>'
+    And User clicks on men`s category button
+    And User clicks on first shopNow button
+    When User clicks on sort button
+    And User clicks on descending item of sort menu
+    Then User checks that sorting function works correctly
+
+    Examples:
+      | homepage              |
+      | https://www.asos.com/ |
+
+  Scenario Outline: checkSearchReturnCorrectResults
+    Given User opens '<homepage>'
+    When User makes search by keyword '<keyword>'
+    Then User checks that search results are correct
+    Examples:
+      | homepage              | keyword |
+      | https://www.asos.com/ | Air     |
+
+    Scenario Outline: checkIfFilterBySizeWorksCorrectly
+    Given User opens '<homepage>'
+    And User clicks on men`s category button
+    And User clicks on first shopNow button
+    When User clicks on Size button
+    And User clicks on size menu item
+    And User clicks on Size button
+    And User clicks on first product in list
+    Then User checks that filter works correctly
+    Examples:
+      | homepage              | keyword |
+      | https://www.asos.com/ | shirt   |
 
   Scenario Outline: checkAddingProductToWishlist
     Given User opens '<homepage>'
@@ -65,3 +98,22 @@ Feature: CartAndWishlist
     Examples:
       | homepage              | keyword |
       | https://www.asos.com/ | swoosh  |
+
+  Scenario Outline: inputIncorrectDataIntoLoginAndPasswordFields
+    Given User opens '<homepage>'
+    And User hover over Account icon
+    And User go to Sign in screen
+    When User clicks on SignIn Button
+    Then User checks empty fields warnings
+    And User checks button sign in is disabled
+    Examples:
+      | homepage              |
+      | https://www.asos.com/ |
+
+  Scenario Outline: checkIfUrlContainsSearchText
+    Given User opens '<homepage>'
+    When User makes search by keyword '<keyword>'
+    Then User checks that url contains '<keyword>' search text
+    Examples:
+      | homepage              | keyword |
+      | https://www.asos.com/ | nike    |

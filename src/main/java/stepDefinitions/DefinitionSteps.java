@@ -20,6 +20,9 @@ public class DefinitionSteps {
     private static final String QUANTITY_IN_CART = "1";
     private static final String Empty_Cart = "";
     private static final String SEARCH_WORD = "Air";
+    private static final String EMAIL_WARNING = "Oops! You need to type your email here";
+    private static final String PASSWORD_WARNING = "Hey, we need a password here";
+
     WebDriver driver;
     HomePage homePage;
     CartPage cartPage;
@@ -28,6 +31,7 @@ public class DefinitionSteps {
     CheckoutPage checkoutPage;
     WishlistPage wishlistPage;
     PageFactoryManager pageFactoryManager;
+
 
     @Before
     public void testsSetUp() {
@@ -186,6 +190,8 @@ public class DefinitionSteps {
     @And("User clicks on descending item of sort menu")
     public void userClicksOnDescendingItemOfSortMenu() {
         searchResultsPage.clickOnDescendingSortMenuItem();
+        searchResultsPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        searchResultsPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
     }
 
     @When("User clicks on Size button")
@@ -208,4 +214,38 @@ public class DefinitionSteps {
         Assert.assertTrue(productPage.checkIfLisInList());
     }
 
+    @And("User hover over Account icon")
+    public void userHoverOverAccountIcon() {
+        homePage = pageFactoryManager.getHomePage();
+        homePage.hoverOverAccountIcon();
+    }
+
+    @And("User go to Sign in screen")
+    public void userGoToSignInScreen() {
+        homePage.clickOnSignInRefInPopup();
+    }
+
+    @When("User clicks on SignIn Button")
+    public void userClicksOnSignInButton() {
+        checkoutPage = pageFactoryManager.getCheckoutPage();
+        checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getSignInButton());
+        checkoutPage.clickOnSignInButton();
+    }
+
+    @Then("User checks empty fields warnings")
+    public void userChecksEmptyFieldsWarnings() {
+        Assert.assertTrue(checkoutPage.getEmailErrorWarning().getText().contains(EMAIL_WARNING));
+        Assert.assertTrue(checkoutPage.getPasswordErrorWarning().getText().contains(PASSWORD_WARNING));
+    }
+
+    @And("User checks button sign in is disabled")
+    public void userChecksButtonSignInIsDisabled() {
+        Assert.assertFalse(checkoutPage.getSignInButton().isEnabled());
+    }
+
+
+    @Then("User checks that url contains {string} search text")
+    public void userChecksThatUrlContainsKeywordSearchText(String searchText) {
+        Assert.assertTrue(homePage.getUrl().contains(searchText));
+    }
 }

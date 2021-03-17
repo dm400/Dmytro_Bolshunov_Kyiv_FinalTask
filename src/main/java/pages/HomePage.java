@@ -38,6 +38,15 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@href='https://www.asos.com/men/' and text()='MEN']")
     private WebElement menCategoryButton;
 
+    @FindBy(xpath = "//div[@id='myAccountDropdown']")
+    private WebElement accountIcon;
+
+    @FindBy(xpath = "//a[text()='Sign In']")
+    private WebElement signInRefInAccountPopup;
+
+    @FindBy(xpath = "//a[text()='My Account']")
+    private WebElement myAccountRefInPopup;
+
     public WebElement getDeleteFormCartUsingPopupButton() {
         return deleteFormCartUsingPopupButton;
     }
@@ -75,11 +84,8 @@ public class HomePage extends BasePage {
         getSearchField().sendKeys(text, Keys.ENTER);
     }
 
-    public void IsSearchPageVisible() {
-        getSearchField().isDisplayed();
-    }
-
     public void clickOnWishlistButton() {
+        build.moveToElement(wishlistButton);
         wishlistButton.click();
     }
 
@@ -113,5 +119,25 @@ public class HomePage extends BasePage {
 
     public void clickOnFirstShopNowButton() {
         firstShopNowButton.click();
+    }
+
+    public void hoverOverAccountIcon() {
+        build.moveToElement(accountIcon).build().perform();
+    }
+
+    public void clickOnSignInRefInPopup() {
+        signInRefInAccountPopup.click();
+    }
+
+    public void clickOnMyAccountRefInPopup() {
+        myAccountRefInPopup.click();
+    }
+
+    public WebElement getMyAccountRefInPopup() {
+        return myAccountRefInPopup;
+    }
+
+    public String getUrl() {
+        return driver.getCurrentUrl();
     }
 }
